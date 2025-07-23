@@ -7,7 +7,7 @@ Each task is inside its own folder as per the submission guidelines.
 
 ## ✅ Task 1: Age Calculator
 
-📂 [`/task1_age_calculator`](./task1_age_calculator/)  
+📂 [`/task1_age_calculator`](https://github.com/mwaqasdev/codealpha_tasks/tree/main/vaporwave-age-calculator)  
 🔗 **Live Demo:** [vaporwave-age-calculator.vercel.app](https://vaporwave-age-calculator.vercel.app/)
 
 ---
