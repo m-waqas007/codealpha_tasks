@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-vaporwave">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaporwave Age Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <button id="theme-toggle" class="theme-toggle">
+            <svg id="theme-icon" viewBox="0 0 24 24">
+                <path id="icon-path" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+            </svg>
+        </button>
+        <h1>Vaporwave Age Calculator</h1>
+        <div class="input-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" max="2025-07-23" required>
+        </div>
+        <button onclick="calculateAge()">Calculate Age</button>
+        <div id="result"></div>
+        <div id="error"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
