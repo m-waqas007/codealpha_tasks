@@ -1,0 +1,90 @@
+<script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+        return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                    row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                    headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+    }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button class="mode-toggle" onclick="toggleMode()">Toggle Dark/Light Mode</button>
+    <div class="container">
+        <div class="player-header">
+            <h1>Music Player</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search by title, artist, or genre...">
+        </div>
+        <label for="audio-upload" class="upload-btn">Upload Music Files</label>
+        <input type="file" id="audio-upload" accept="audio/*" multiple style="display: none;">
+        <div class="player-controls">
+            <button id="prev-btn" onclick="skipTrack('prev')">⏮</button>
+            <button id="play-pause-btn" onclick="playPause()">▶️</button>
+            <button id="next-btn" onclick="skipTrack('next')">⏭</button>
+            <div class="volume-control">
+                <label for="volume">🔊</label>
+                <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+            </div>
+        </div>
+        <div id="equalizer" class="equalizer">
+            <div class="equalizer-bar"></div>
+            <div class="equalizer-bar"></div>
+            <div class="equalizer-bar"></div>
+            <div class="equalizer-bar"></div>
+            <div class="equalizer-bar"></div>
+        </div>
+        <audio id="audio-player"></audio>
+        <h2>Playlist</h2>
+        <ul id="playlist"></ul>
+        <div class="playlist-actions">
+            <button onclick="savePlaylist()">Save Playlist</button>
+            <button onclick="loadPlaylist()">Load Playlist</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
