@@ -15,7 +15,7 @@ Each task is inside its own folder as per the submission guidelines.
 ## ✅ Task 2: Music Player
 
 📂 [`/task2_music_player`](https://github.com/mwaqasdev/codealpha_tasks/tree/main/music-player)  
-🔗 **Live Demo:** [vaporwave-age-calculator.vercel.app](https://codealpha-tasks-ten.vercel.app/)
+🔗 **Live Demo:** [music-player](https://codealpha-tasks-ten.vercel.app/)
 
 ---
 
